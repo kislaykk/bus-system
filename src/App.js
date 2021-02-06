@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import SignOptions from './components/SignOptions'
+import Dashboard from './components/Dashboard';
+import { firebase } from "./controllers/fireBase";
+class App extends React.Component
+{
+  constructor(props)
+  {
+    super(props)
+  }
+  render()
+  {
+    let isSignedIn;
+    firebase.default.auth().onAuthStateChanged((user)=>{
+      if (user){
+        isSignedIn= user;
+        console.log(isSignedIn.uid);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      }
+    })
+    return (<div>{
+      isSignedIn?<Dashboard uid={isSignedIn.uid}/>:<SignOptions fireb={firebase}/>}</div>)
+  }
 }
+
+
 
 export default App;
