@@ -1,52 +1,40 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../App';
 let {signInFb} =require('../controllers/signInFb');
-class SignInForm extends React.Component
+function SignInForm(props)
 {
-    constructor(props)
-    {
-        super(props);
-        this.state = {email:'',password:''}
-        this.emailChangeHandler=this.emailChangeHandler.bind(this);
-        this.passwordChangeHandler=this.passwordChangeHandler.bind(this);
-        this.signIn=this.signIn.bind(this);
+    
+    const [email,setEmail]=useState('');
+    const [password,setPassword]=useState('');
+    const {signedIn,setSignedIn} = useContext(UserContext)
+    return(
+        <div>
+            SIGN IN
+            <form onSubmit={(e)=>{
+                e.preventDefault();
+                signInFb(props.fb,email,password)
+                .then((user)=>{
+                    // alert(user.uid);
+                    setSignedIn(user)
+                })
+                .catch(error=>{
+                    alert(error.message);
+                })
+            }}>
+            <label>
+                Email:
+                <input type='email' value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
+            </label>
+            <label>
+                Password:
+                <input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
+            </label>
+            <br/>
+            <input type='submit' value='Sign in!'/>
+            </form>
+        </div>
         
-    }
-    emailChangeHandler(event)
-    {
-        this.setState({email:event.target.value})
-    }
-    passwordChangeHandler(event)
-    {
-        this.setState({password:event.target.value})
-    }
-    signIn(event)
-    {
-        event.preventDefault();
-        let email=this.state.email;
-        let password=this.state.password;
-        signInFb(this.props.fb,email,password);
-
-    }
-    render()
-    {
-        return(
-            <div>
-                SIGN IN
-                <form onSubmit={this.signIn}>
-                <label>
-                    Email:
-                    <input type='email' value={this.state.email} onChange={this.emailChangeHandler}/>
-                </label>
-                <label>
-                    Password:
-                    <input type='password' value={this.state.password} onChange={this.passwordChangeHandler}/>
-                </label>
-                <br/>
-                <input type='submit' value='Sign in!'/>
-                </form>
-            </div>
-            
-        )
-    }
+    )
+    
 }
 export default SignInForm;

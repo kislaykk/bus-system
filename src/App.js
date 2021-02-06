@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SignOptions from './components/SignOptions'
 import Dashboard from './components/Dashboard';
 import { firebase } from "./controllers/fireBase";
-class App extends React.Component
+export const UserContext = React.createContext();
+//Changing this component to function component to use useState hook
+function App()
 {
-  constructor(props)
-  {
-    super(props)
-  }
-  render()
-  {
-    let isSignedIn;
-    firebase.default.auth().onAuthStateChanged((user)=>{
-      if (user){
-        isSignedIn= user;
-        console.log(isSignedIn.uid);
-
+  const [signedIn,setSignedIn]=useState(null);
+  
+    return (
+    <div>{
+      signedIn?<Dashboard uid={signedIn.uid}/>:
+      <UserContext.Provider value={{signedIn,setSignedIn}}>
+        <SignOptions fireb={firebase}/>
+      </UserContext.Provider>
       }
-    })
-    return (<div>{
-      isSignedIn?<Dashboard uid={isSignedIn.uid}/>:<SignOptions fireb={firebase}/>}</div>)
-  }
+    </div>
+    )
+  
 }
 
 
