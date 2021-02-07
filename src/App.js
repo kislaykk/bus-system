@@ -9,12 +9,14 @@ function App()
   const [signedIn,setSignedIn]=useState(null);
   
     return (
-    <div>{
+    <div>
+      {
       signedIn?<Dashboard uid={signedIn.uid}/>:
       <UserContext.Provider value={{signedIn,setSignedIn}}>
         <SignOptions fireb={firebase}/>
       </UserContext.Provider>
       }
+      {/* <Dashboard uid={"SFm4oH0kC6hSd0yPRtDkuZVNSZ82"}/> */}
     </div>
     )
   
