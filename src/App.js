@@ -11,7 +11,9 @@ function App()
     return (
     <div>
       {
-      signedIn?<Dashboard uid={signedIn.uid}/>:
+      signedIn?<UserContext.Provider value={{signedIn,setSignedIn}}>
+        <Dashboard uid={signedIn.uid}/>
+      </UserContext.Provider>:
       <UserContext.Provider value={{signedIn,setSignedIn}}>
         <SignOptions fireb={firebase}/>
       </UserContext.Provider>

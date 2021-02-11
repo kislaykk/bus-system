@@ -67,7 +67,14 @@ function AddBus(props)
                 }}>Add stoppage</button>
                 <input type="submit" value="add" onClick={(e)=>{
                     e.preventDefault();
-                    addBusToStore(busName,busNumber,beginsFrom,destination,stoppages,props.uid)
+                    addBusToStore(busName,busNumber,beginsFrom,destination,stoppages,props.uid);
+                    setBusName('');
+                    setBusNumber('');
+                    setBeginsFrom('');
+                    setDestination('');
+                    setStoppage('');
+                    setFare('');
+                    setStoppages([])
                 }}/>
             </label>
         

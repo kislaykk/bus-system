@@ -1,6 +1,7 @@
 //this file registers the managers with their name email and password
 // const {firebase} = require('./fireBase');
 let axios = require('axios');
+let urlForWeb3Endpoint =require('./urlForWeb3Endpoint.json');
 const register = (firebase,name,email,password)=> new Promise((resolve,reject)=>{
     try
     {
@@ -12,7 +13,7 @@ const register = (firebase,name,email,password)=> new Promise((resolve,reject)=>
             const q= db.collection('Managers').doc(user.uid);
             const response = await axios({
                 method:'get',
-                url:'https://polar-depths-87667.herokuapp.com/wallet/account'
+                url:`${urlForWeb3Endpoint.endpoint}/wallet/account`
             })
             await q.set({
                 'name':name,

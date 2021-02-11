@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import listBuses from '../controllers/listBuses';
 import deleteBus from '../controllers/deleteBus';
+let QRCode = require('qrcode.react');
 function ListBusAndEdit(props){
     let {uid}=props;
     let [busList,setBusList] = useState([])
@@ -43,6 +44,7 @@ function ListBusAndEdit(props){
                         to:{element[1].destination} <br/>
                         bus Number:{element[1].busNumber} <br/>
                         stoppages:<BusStoppagesFormat stoppages={element[1].stoppages}/>
+                        <QRCode value ={element[0]}/>
                         <button onClick={()=>{deleteBusFromList(element[0],props.uid)}}>delete</button>
                     </li>
                     )
